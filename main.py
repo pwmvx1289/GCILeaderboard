@@ -109,6 +109,7 @@ def error():
 
 currentprocess = None
 
+
 @app.route('/update')
 def update():
     global currentprocess
@@ -246,6 +247,7 @@ def leaderboard(org):
                            quality=quality,
                            documentation=doc,
                            research=research,
+                           updating=bool(currentprocess)
                            )
 
 

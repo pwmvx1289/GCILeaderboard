@@ -109,15 +109,20 @@ def error():
 
 currentprocess = None
 
-@app.route('/update')
-def update():
+
+@app.route('/update/org/<orgname>')
+def update(orgname):
     global currentprocess
     if currentprocess:
         currentprocess.terminate()
         currentprocess = None
     today = datetime.datetime.today()
     currentprocess = subprocess.Popen(["python", "update.py"])
-    return redirect('/all')
+    if orgname == 'all':
+        link = '/all'
+    else:
+        link = '/org/%s' % orgname
+    return redirect(link)
 
 
 @app.route('/student/<name>', defaults={'org': u'All Organizations'})
@@ -246,6 +251,7 @@ def leaderboard(org):
                            quality=quality,
                            documentation=doc,
                            research=research,
+                           updating=bool(currentprocess)
                            )
 
 
